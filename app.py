@@ -278,4 +278,20 @@ def editar_livro_por_id(id):
     return jsonify({"mensagem": f"Livro com ID {id} não encontrado"})
 
 
+@app.route('/livros', methods=['POST'])
+def incluir_novo_livro():
+    novo_livro = request.get_json()
+    livros.append(novo_livro)
+    return jsonify(novo_livro)
+
+
+@app.route('/livros/<int:id>', methods=['DELETE'])
+def excluir_livro_por_id(id):
+    for indice, livro in enumerate(livros):
+        if livro.get('id') == id:
+            del livros[indice]
+            return jsonify({"mensagem": f"Livro com ID {id} excluído"})
+    return jsonify({"mensagem": f"Livro com ID {id} não encontrado"})
+
+
 app.run(debug=True, host='localhost', port=5000)
